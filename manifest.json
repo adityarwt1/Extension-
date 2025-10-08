@@ -3,11 +3,17 @@
   "name": "Google Auth Extension",
   "version": "1.0",
   "permissions": ["identity", "storage"],
-  "host_permissions": ["https://accounts.google.com/*"],
-  "action": {
-    "default_popup": "popup.html"
+  "oauth2": {
+    "client_id": "371599318851-33ejqhm7jlp87t5t7km2v4vleudlv0ir.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
   },
   "background": {
     "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
   }
 }

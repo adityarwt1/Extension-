@@ -1,35 +1,25 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async () => {
   const signInBtn = document.getElementById("sign-in-btn");
   const signOutBtn = document.getElementById("sign-out-btn");
   const authSection = document.getElementById("auth-section");
   const userSection = document.getElementById("user-section");
 
-  // Check if user is already authenticated
-  checkAuthStatus();
+  // Load saved user info
+  const { userInfo } = await chrome.storage.local.get("userInfo");
+  if (userInfo) {
+    showUser(userInfo);
+  }
 
   signInBtn.addEventListener("click", async () => {
+    signInBtn.textContent = "Signing in...";
+    signInBtn.disabled = true;
     try {
-      signInBtn.textContent = "Signing in...";
-      signInBtn.disabled = true;
-
-      const response = await chrome.runtime.sendMessage({
-        action: "authenticate",
-      });
-
-      if (response.success) {
-        // Store authentication data
-        await chrome.storage.local.set({
-          authCode: response.code,
-          isAuthenticated: true,
-        });
-
-        showUserSection();
+      const res = await chrome.runtime.sendMessage({ action: "authenticate" });
+      if (res.success) {
+        showUser(res.user);
       } else {
-        throw new Error(response.error);
+        alert("Auth failed: " + res.error);
       }
-    } catch (error) {
-      console.error("Authentication failed:", error);
-      alert("Authentication failed: " + error.message);
     } finally {
       signInBtn.textContent = "Sign in with Google";
       signInBtn.disabled = false;
@@ -38,25 +28,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   signOutBtn.addEventListener("click", async () => {
     await chrome.storage.local.clear();
-    showAuthSection();
+    userSection.style.display = "none";
+    authSection.style.display = "block";
   });
 
-  async function checkAuthStatus() {
-    const result = await chrome.storage.local.get(["isAuthenticated"]);
-    if (result.isAuthenticated) {
-      showUserSection();
-    }
-  }
+  function showUser(user) {
+    document.getElementById("user-pic").src = user.picture;
+    document.getElementById("user-name").textContent = user.name;
+    document.getElementById("user-email").textContent = user.email;
 
-  function showAuthSection() {
-    authSection.style.display = "block";
-    userSection.style.display = "none";
-  }
-
-  function showUserSection() {
     authSection.style.display = "none";
     userSection.style.display = "block";
-    document.getElementById("user-info").innerHTML =
-      "<p>Authentication successful!</p>";
   }
 });
