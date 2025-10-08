@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            width: 300px;
+            padding: 20px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #user-info {
+            margin-top: 20px;
+        }
+        img {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="auth-section">
+        <h3>Sign In</h3>
+        <button id="sign-in-btn">Sign in with Google</button>
+    </div>
+    
+    <div id="user-section" style="display: none;">
+        <h3>Welcome!</h3>
+        <div id="user-info"></div>
+        <button id="sign-out-btn">Sign Out</button>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

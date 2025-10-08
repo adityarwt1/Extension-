@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Auth</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Sign In Button Container -->
+    <div id="g_id_onload"
+         data-client_id="371599318851-33ejqhm7jlp87t5t7km2v4vleudlv0ir.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="handleCredentialResponse"
+         data-auto_select="false"
+         data-itp_support="true">
+    </div>
+    
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="pill"
+         data-theme="outline"
+         data-text="signin_with"
+         data-size="large"
+         data-logo_alignment="left">
+    </div>
+
+    <!-- User Info Display -->
+    <div id="user-info" style="display: none;">
+        <h3>Welcome!</h3>
+        <p id="user-name"></p>
+        <p id="user-email"></p>
+        <img id="user-picture" width="100" height="100">
+        <button onclick="signOut()">Sign Out</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
